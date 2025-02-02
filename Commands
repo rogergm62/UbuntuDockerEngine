@@ -13,3 +13,42 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io
 #To confirm that Docker is installed and running:
 sudo systemctl enable --now docker
 sudo systemctl status docker
+
+# Some important commands:
+# Para ver las pulled images:
+sudo docker images
+# Para ver los running containers, option a para ver todos, incluyendo los detenidos
+sudo docker ps -a
+# Para bajar una imagen ir a docker hub y seleccionar una imagen. Click en copiar command y ejecutarlo.
+sudo docker pull acantril/containerofcats
+# Para verificar que se descargo usar de nuevo:
+sudo docker images
+# Para inspeccionat la image
+sudo docker inspect <escribir la imagen ID o Repository name>
+# Para conectar al docker
+sudo docker run -p 8081:80 acantril/containerofcats
+# Despues de este command ir al web browser y type: HTTP://localhost:80 Esto nos lleva a ver los gatos.
+# Otra opcion para no tener el command running en la terminal es usar la opcion detach:
+sudo docker run -p 8081:80 -d acantril/containerofcats
+# Para ver el port mapping configuration:
+sudo docker port <containerID>
+# Para ver que procesos estan corriendo en el container:
+sudo docker top <containerID>
+# Para entrar al docker container usando el shell:
+sudo docker exec -it <containerID> sh
+# Desde el shell se pueden usar commandos para ver el volumen:
+sh# df -k
+# Para interactuar con el container:
+sudo docker stop <ImageID>
+sudo docker restart <ImageID>
+sudo docker start <ImageID>
+sudo docker logs <ImageID> -t
+# Para eliminar completamente el docker container y la imagen asociada:
+sudo decker ps
+sudo docker stop <ContainerID>
+sudo docker rm <ContainerID>
+sudo docker ps -a
+sudo docker rm <ContaineriD>
+sudo docker images
+sudo docker rmi <ImageID>
+sudo docker 
