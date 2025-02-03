@@ -1,0 +1,27 @@
+#!/bin/bash
+# Para crear un bridge:
+sudo docker network create --driver=bridge --subnet=172.16.3.0/24 csf-br0
+# Para ver todas las networks:
+sudo docker network ls
+# Podemos inspecionar el bridge:
+sudo docker inspect csf-br0
+# Para buscar imagenes desde la linea de commands:
+sudo docker search ubuntu
+# Para jalar una imagen:
+sudo docker image pull:focal
+# Para ver todas las imagenes guardadas en la compu:
+sudo docker image ls
+# Para correr o instalar una imagen. La opcion i Keeps STDIN open, allowing interaction with the container.
+# La opcion d es detachment. Nombre de el container: csf-ubuntu1. Network es donde lo vamos a poner.
+# La ultima opcion es la imagen 
+sudo docker run -i -d --name csf-ubuntu1 --network csf-br0 ubuntu:focal
+# Despues podemos correr el sigiuente commando para verificar su creacion:
+sudo docker ps -a
+# Despues para ver la IP que se le asigno:
+sudo docker inspect csf-ubuntu1
+# Si queremos interactuar con la linea de commandos del container:
+sudo docker -it csf-ubuntu2 /bin/bash
+# El siguinete command crea o corre un container y mapea ports:
+sudo docker run -d -p 8080:80 --name csf-nginx nginx:latest
+# Aqui esta otra variable del comando pare crear o correr. La opcion P lista todos los open ports al final de la creacion:
+sudo docker run -ditP --name metasploit icarossio/metasploitable2
