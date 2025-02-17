@@ -5,6 +5,9 @@ sudo docker network create --driver=bridge --subnet=172.16.3.0/24 csf-br0
 sudo docker network ls
 # Podemos inspecionar el bridge:
 sudo docker inspect csf-br0
+# Tambien se puede inspeccior un container
+sudo docker inspect openvas
+
 # Para buscar imagenes desde la linea de commands:
 sudo docker search ubuntu
 # Para jalar una imagen:
