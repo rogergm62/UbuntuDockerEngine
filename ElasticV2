@@ -1,0 +1,78 @@
+#docker-compose.yaml para elastic container
+#Para correrlo: sudo docker compose up -d
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.6.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.6.0
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - suricata_logs:/var/log/suricata
+    depends_on:
+      - elasticsearch
+
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: suricata
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - suricata_logs:/var/log/suricata
+    command: ["-i", "eth0"]  # Replace eth0 with the interface you want to monitor.
+
+volumes:
+  elastic_data:
+  suricata_logs:
+
+# Este es el docker compose para el filebeat. Se tiene que llamer filebeat.yml
+filebeat.inputs:
+  - type: filestream
+    id: suricata-logs
+    paths:
+      - /var/log/suricata/eve.json
+    json.keys_under_root: true
+    json.add_error_key: true
+    json.message_key: log
+
+setup.template.enabled: false
+setup.ilm.overwrite: true
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "suricata-logs"
+
+setup.kibana:
+  host: "kibana:5601"
+
+processors:
+  - rename:
+      fields:
+        - from: "event_type"
+          to: "suricata.event_type"
+      ignore_missing: true
+
+#### Para accessar Kibana: http://localhost:5601
+#### Para accessar Elastic http://localhost:9200
+#### Despues de resetear la maquina para correr el container de nuevo: sudo docker compose up -d
