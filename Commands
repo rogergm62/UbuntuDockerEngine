@@ -51,4 +51,5 @@ sudo docker ps -a
 sudo docker rm <ContaineriD>
 sudo docker images
 sudo docker rmi <ImageID>
-sudo docker 
+sudo docker volume ls
+sudo docker volume rm <volume name>
