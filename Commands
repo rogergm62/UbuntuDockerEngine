@@ -53,3 +53,14 @@ sudo docker images
 sudo docker rmi <ImageID>
 sudo docker volume ls
 sudo docker volume rm <volume name>
+
+#Para trabajar con redes. 
+sudo docker network ls
+# Crear un bridge
+sudo docker network create --driver=bridge --subnet=172.16.3.0/24 <nombre>
+# Para el project usamos (es bridge por default y la subnet se assigna automatica)
+sudo docker network create elastic-net
+# Borran una network
+sudo docker network rm <nombre>
+# Para ver los detalles de la red (o tambien usar ip addr)
+sudo docker network inspect <nombre>
