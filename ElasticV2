@@ -38,13 +38,20 @@ services:
     container_name: suricata
     privileged: true
     network_mode: "host"
-    volumes:
-      - suricata_logs:/var/log/suricata
-    command: ["-i", "eth0"]  # Replace eth0 with the interface you want to monitor.
-
 volumes:
-  elastic_data:
+  suricata_config:
   suricata_logs:
+
+services:
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: suricata
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - suricata_config:/etc/suricata
+      - suricata_logs:/var/log/suricata
+    command: ["-i", "eth0"]
 
 # Este es el docker compose para el filebeat. Se tiene que llamer filebeat.yml
 filebeat.inputs:
