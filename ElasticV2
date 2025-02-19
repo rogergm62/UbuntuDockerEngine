@@ -91,7 +91,7 @@ output.elasticsearch:
   hosts: ["http://elasticsearch:9200"]
   index: "suricata-logs-%{+yyyy.MM.dd}"
 
-
+# ****Los siguientes cambios estan pendientes porque no jalaron***
 #### Para accessar Kibana: http://localhost:5601
 #### Para accessar Elastic http://localhost:9200
 #### Despues de resetear la maquina para correr el container de nuevo: sudo docker compose up -d
