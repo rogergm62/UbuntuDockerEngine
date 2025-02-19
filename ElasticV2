@@ -44,7 +44,7 @@ services:
     privileged: true
     network_mode: "host"
     volumes:
-      - ./suricata.yaml:/etc/suricata/suricata.yaml  # Persistent config
+      - ./suricata-config:/etc/suricata/  # Persistent config
       - suricata_logs:/var/log/suricata  # Persistent logs
     command: ["-i", "eth0"]  # Change eth0 to match your network interface
 
